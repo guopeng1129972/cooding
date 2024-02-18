@@ -326,24 +326,274 @@ var iter = rl[Symbol.asyncIterator]();
 const readline = async () => (await iter.next()).value;
 
 void (async function () {
-    // Write your code here
-    while ((line = await readline())) {
-        let num = 0;
-        let nums=Number(line).toString(2);
-        for(let i in nums){
-            if(+nums[i]==1){
-                num++
-            }
-        }
-        console.log(num);
+  // Write your code here
+  while ((line = await readline())) {
+    let num = 0;
+    let nums = Number(line).toString(2);
+    for (let i in nums) {
+      if (+nums[i] == 1) {
+        num++;
+      }
     }
+    console.log(num);
+  }
 })();
-
-
 ```
 
 # HJ16 购物单
+
 https://www.nowcoder.com/practice/f9c6f980eeec43ef85be20755ddbeaf4?tpId=37&tags=&title=&difficulty=0&judgeStatus=0&rp=1&sourceUrl=%2Fexam%2Foj%2Fta%3FtpId%3D37
+
 ```js
 // 这个得用背包问题解 但是现在不会 下次再说吧 先这样吧
+```
+
+# HJ17 坐标移动
+
+https://www.nowcoder.com/practice/119bcca3befb405fbe58abe9c532eb29?tpId=37&tags=&title=&difficulty=0&judgeStatus=0&rp=1&sourceUrl=%2Fexam%2Foj%2Fta%3FtpId%3D37
+
+```js
+const rl = require("readline").createInterface({ input: process.stdin });
+var iter = rl[Symbol.asyncIterator]();
+const readline = async () => (await iter.next()).value;
+
+void (async function () {
+  // Write your code here
+  let arr = ["A", "S", "D", "W"];
+  line = await readline();
+  let tokens = line.split(";");
+  let newArr = [0, 0];
+  for (let i in tokens) {
+    // console.log(tokens,'tokens')
+    // console.log(tokens[i],'tokens[i]')
+    if (tokens[i].length < 2) {
+      continue;
+    }
+
+    // let a = tokens[i][0];
+    // let b = tokens[i].split(1,tokens[i].length)
+    // let b = tokens[i];
+    // let b = '123'.startsWith();
+    // let b = '123'.substring(1,);
+    let b = Number(tokens[i].substring(1, tokens[i].length));
+    // tokens[i].length>=2
+    if (tokens[i][0] == "A" && b) {
+      newArr[0] -= b;
+      // console.log(b, "A", newArr);
+    }
+    if (tokens[i][0] == "S" && b) {
+      newArr[1] -= b;
+      // console.log(b, "S", newArr);
+    }
+    if (tokens[i][0] == "D" && b) {
+      newArr[0] += b;
+      // console.log(b, "D", newArr);
+    }
+    if (tokens[i][0] == "W" && b) {
+      newArr[1] += b;
+      // console.log(b, "W", newArr);
+    }
+
+    // console.log(tokens[i], "tokens[i]");
+    // console.log(b, "b");
+  }
+  // console.log(newArr, "newArr");
+  console.log(newArr.join(","));
+  // while(){
+  //     let tokens = line.split(';');
+  //     let b = parseInt(tokens[1]);
+  //     console.log(a + b);
+  // }
+})();
+```
+
+# HJ18 识别有效的 IP 地址和掩码并进行分类统计
+
+https://www.nowcoder.com/practice/de538edd6f7e4bc3a5689723a7435682?tpId=37&tags=&title=&difficulty=0&judgeStatus=0&rp=1&sourceUrl=%2Fexam%2Foj%2Fta%3FtpId%3D37
+
+<!-- 没做出来 -->
+
+```js
+const rl = require("readline").createInterface({ input: process.stdin });
+var iter = rl[Symbol.asyncIterator]();
+const readline = async () => (await iter.next()).value;
+
+void (async function () {
+  // Write your code here
+  let newArr = [0, 0, 0, 0, 0, 0, 0];
+
+  while ((line = await readline())) {
+    let tokens = line.split("~");
+    // console.log(tokens, "tokens");
+    let a = tokens[0];
+    //  '123'.startsWith
+    // 统计A、B、C、D、E、错误IP地址或错误掩码、私有IP的个数
+    if (a.startsWith("0.") || a.startsWith("127.")) {
+      continue;
+    }
+    let b = tokens[1];
+    let aarr = a.split(".");
+    let barr = b.split(".");
+    let ziwang = "";
+    for (let i = 0; i < barr.length; i++) {
+      ziwang += parseInt(barr[i]).toString(2);
+    }
+    let isZR = 0;
+    let temp = "";
+    for (let j in ziwang) {
+      if (+temp != +ziwang[j]) {
+        temp = +ziwang[j];
+        isZR++;
+        if (isZR > 2) {
+          break;
+        }
+      }
+    }
+    // console.log(ziwang[j], "ziwang[j]");
+    // console.log(ziwang, "ziwang");
+    // console.log(aarr, "aarr");
+    console.log(isZR, "isZR");
+    if (+aarr[0] >= 1 || +aarr[0] <= 126) {
+      if (+aarr[1] >= 0 || +aarr[1] <= 255) {
+        if (+aarr[2] >= 0 || +aarr[2] <= 255) {
+          if (+aarr[3] >= 0 || +aarr[3] <= 255) {
+            if (isZR <= 2) {
+              if (+aarr[0] == 10) {
+                newArr[6]++;
+              } else {
+                newArr[0]++;
+              }
+            } else {
+              newArr[5]++;
+              continue;
+            }
+          } else {
+            newArr[5]++;
+            continue;
+          }
+        } else {
+          newArr[5]++;
+          continue;
+        }
+      } else {
+        newArr[5]++;
+        continue;
+      }
+    } else if (+aarr[0] >= 128 || +aarr[0] <= 191) {
+      if (+aarr[1] >= 0 || +aarr[1] <= 255) {
+        if (+aarr[2] >= 0 || +aarr[2] <= 255) {
+          if (+aarr[3] >= 0 || +aarr[3] <= 255) {
+            if (isZR <= 2) {
+              if (+aarr[0] == 172 && +aarr[1] >= 16 && +aarr[1] <= 32) {
+                newArr[6]++;
+              } else {
+                newArr[1]++;
+              }
+            } else {
+              newArr[5]++;
+              continue;
+            }
+          } else {
+            newArr[5]++;
+            continue;
+          }
+        } else {
+          newArr[5]++;
+          continue;
+        }
+      } else {
+        newArr[5]++;
+        continue;
+      }
+    } else if (+aarr[0] >= 192 || +aarr[0] <= 223) {
+      if (+aarr[1] >= 0 || +aarr[1] <= 255) {
+        if (+aarr[2] >= 0 || +aarr[2] <= 255) {
+          if (+aarr[3] >= 0 || +aarr[3] <= 255) {
+            if (isZR <= 2) {
+              if (+aarr[0] == 192 && +aarr[1] == 168) {
+                newArr[6]++;
+              } else {
+                newArr[2]++;
+              }
+            } else {
+              newArr[5]++;
+              continue;
+            }
+          } else {
+            newArr[5]++;
+            continue;
+          }
+        } else {
+          newArr[5]++;
+          continue;
+        }
+      } else {
+        newArr[5]++;
+        continue;
+      }
+    } else if (+aarr[0] >= 224 || +aarr[0] <= 239) {
+      if (+aarr[1] >= 0 || +aarr[1] <= 255) {
+        if (+aarr[2] >= 0 || +aarr[2] <= 255) {
+          if (+aarr[3] >= 0 || +aarr[3] <= 255) {
+            if (isZR <= 2) {
+              newArr[3]++;
+            } else {
+              newArr[5]++;
+              continue;
+            }
+          } else {
+            newArr[5]++;
+            continue;
+          }
+        } else {
+          newArr[5]++;
+          continue;
+        }
+      } else {
+        newArr[5]++;
+        continue;
+      }
+    } else if (+aarr[0] >= 240 || +aarr[0] <= 255) {
+      if (+aarr[1] >= 0 || +aarr[1] <= 255) {
+        if (+aarr[2] >= 0 || +aarr[2] <= 255) {
+          if (+aarr[3] >= 0 || +aarr[3] <= 255) {
+            if (isZR <= 2) {
+              newArr[4]++;
+            } else {
+              newArr[5]++;
+              continue;
+            }
+          } else {
+            newArr[5]++;
+            continue;
+          }
+        } else {
+          newArr[5]++;
+          continue;
+        }
+      } else {
+        newArr[5]++;
+        continue;
+      }
+    }
+  }
+  console.log(newArr.join(" "));
+})();
+```
+
+# HJ19 简单错误记录
+
+https://www.nowcoder.com/practice/2baa6aba39214d6ea91a2e03dff3fbeb?tpId=37&tags=&title=&difficulty=0&judgeStatus=0&rp=1&sourceUrl=%2Fexam%2Foj%2Fta%3FtpId%3D37
+先过。。
+
+```js
+
+```
+
+# HJ20 密码验证合格程序
+
+https://www.nowcoder.com/practice/184edec193864f0985ad2684fbc86841?tpId=37&tags=&title=&difficulty=0&judgeStatus=0&rp=1&sourceUrl=%2Fexam%2Foj%2Fta%3FtpId%3D37
+
+```js
+
 ```
